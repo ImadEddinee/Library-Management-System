@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Categories</title>
+  <link rel="stylesheet" href="webjars/bootstrap/5.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="webjars/bootstrap-icons/1.9.1/font/bootstrap-icons.css">
+</head>
+<body>
+<div th:insert="fragments/header :: header" ></div>
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-body p-0 pt-3">
+      <div th:switch="${categories}" class="container">
+        <div class="row">
+          <div class="col-md-9">
+            <p>
+              <a th:href="@{/add-category}" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Add Category
+              </a>
+            </p>
+          </div>
+          <div class="col-md-3">
+            <form method="get" th:action="@{/categories}">
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" name="keyword" th:value="${keyword}" placeholder="Search By Name ..." aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <button style="padding: 0;border: none">
+                   <span class="input-group-text" id="basic-addon2">
+                      <i class="bi bi-search"></i>
+                  </span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <h2 th:case="null" >No record found</h2>
+          <div th:case="*" >
+            <table class="table table-striped table-responsive-md">
+              <thead>
+              <tr>
+                <th scope="col">Book Name</th>
+                <th scope="col">Details</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="category :${categories}">
+                <td th:text="${category.name}" ></td>
+                <td><a th:href="@{/categories/{id}(id=${category.id})}"
+                       class="btn btn-sm btn-primary">
+                  <i class="bi bi-eye"></i>
+                </a></td>
+                <td><a th:href="@{/categories/{id}(id=${category.id})}"
+                       class="btn btn-sm btn-primary">
+                  <i class="bi bi-pencil-square"></i>
+                </a></td>
+                <td>
+                  <form  th:action="@{/categories/{id}(id=${category.id},keyword=${keyword},page=${currentPage})}" th:method="delete">
+                    <input type="hidden" name="_method" value="delete" />
+                    <button type="submit" class="btn btn-sm btn-primary"
+                            onclick="confirm('Are you sure !')">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </form>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 offset-10">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item">
+                  <a th:class="${pagination[0] - 1 < 0 ? 'page-link disabled' : 'page-link'}"
+                     th:href="@{books(keyword=(${keyword}),page=${pagination[0] - 1})}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li class="page-item" th:each="p : ${pagination}">
+                  <a   th:class="${ currentPage == p ? 'page-link active' : 'page-link'}"
+                       th:classappend="${ currentSize * (p+1) >= (totalElements+currentSize) ? 'disabled' : ''}"
+                       th:href="@{books(keyword=(${keyword}),page=${p})}"
+                       th:text="${p + 1}"></a>
+                </li>
+                <li class="page-item">
+                  <a th:class="${pagination[2] + 1 > totalPages ? 'page-link disabled' : 'page-link'}"
+                     th:href="@{books(keyword=(${keyword}),page=${pagination[2] + 1})}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

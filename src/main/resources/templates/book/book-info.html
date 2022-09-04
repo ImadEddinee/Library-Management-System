@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Books</title>
+  <link rel="stylesheet" href="/webjars/bootstrap/5.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/  webjars/bootstrap-icons/1.9.1/font/bootstrap-icons.css">
+</head>
+<body>
+<div th:insert="fragments/header :: header" ></div>
+<div class="container mt-5">
+  <div class="card  col-md-8 offset-md-2">
+    <div class="card-body">
+      <div class="card-title text-center fw-light">
+        <a href="" class="link-secondary">Edit this Book</a>
+      </div>
+      <div th:switch="${book}" class="container my-5">
+        <div class="col-md-12">
+          <form class="row g-3">
+            <div class="col-md-6">
+              <label for="isbn" class="fw-light form-label">Book ISBN</label>
+              <input type="text" disabled class="form-control fw-light" id="isbn" th:value="${book.isbn}">
+            </div>
+            <div class="col-md-6">
+              <label for="bookName" class=" fw-light form-label">Book Name</label>
+              <input type="text" disabled class="form-control fw-light" id="bookName" th:value="${book.name}">
+            </div>
+            <div class="form-floating col-12">
+              <textarea class="form-control fw-light" disabled id="description" th:text="${book.description}"></textarea>
+              <label for="description" class="fw-light">Book Description</label>
+            </div>
+            <div class="col-12 mt-3">
+              <span class="fw-bold">Book's Categories :</span>
+              <span class="fw-light" th:each="category: ${book.categories}"
+                    th:text="${category.name}">
+              </span>
+            </div>
+            <div class="col-12">
+              <span class="fw-bold">Book's Authors :</span>
+              <span class="fw-light" th:each="author: ${book.authors}"
+                    th:text="${author.name}">
+              </span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

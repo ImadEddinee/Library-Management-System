@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Books</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/bootstrap-icons/1.9.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div th:insert="fragments/header :: header" ></div>
+<div class="container mt-5">
+    <div class="card  col-md-8 offset-md-2">
+        <div class="card-body">
+            <div class="card-title text-center fw-light">
+                <a href="" class="link-secondary">Insert a new Book</a>
+            </div>
+            <div class="container my-5 mb-0">
+                <div class="col-md-12">
+                    <form class="row g-3" method="post" th:action="@{/books}">
+                        <div class="col-md-6">
+                            <label for="isbn" class="fw-light form-label">Book ISBN</label>
+                            <input type="text" class="form-control fw-light" id="isbn">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="bookName" class=" fw-light form-label">Book Name</label>
+                            <input type="text" class="form-control fw-light" id="bookName" >
+                        </div>
+                        <div class="form-floating col-12">
+                            <textarea class="form-control fw-light" id="description" ></textarea>
+                            <label for="description" class="fw-light">Book Description</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="ui form">
+                                <div class="inline field">
+                                    <select name="skills" multiple="" class="label ui selection fluid dropdown">
+                                        <option value="">Select Categories</option>
+                                        <option th:each="category : ${categories}"
+                                                th:value="${category.id}"
+                                                th:text="${category.name}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="ui button">
+                                Clear Categories
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="ui form">
+                                <div class="inline field">
+                                    <select name="skills" multiple="" class="label ui selection fluid dropdown">
+                                        <option value="">Select Authors</option>
+                                        <option th:each="author : ${authors}"
+                                                th:value="${author.id}"
+                                                th:text="${author.name}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="ui button">
+                                Clear Authors
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 mt-5 col-6 mx-auto">
+                            <button class="btn btn-outline-success" type="button">
+                                insert a new book
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.js"></script>
+<script type="text/javascript">
+    $('.label.ui.dropdown')
+        .dropdown();
+
+    $('.no.label.ui.dropdown')
+        .dropdown({
+            useLabels: false
+        });
+
+    $('.ui.button').on('click', function () {
+        $('.ui.dropdown')
+            .dropdown('restore defaults')
+    })
+
+</script>
+</body>
+</html>
