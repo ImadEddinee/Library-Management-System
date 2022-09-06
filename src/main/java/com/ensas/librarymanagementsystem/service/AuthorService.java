@@ -1,6 +1,7 @@
 package com.ensas.librarymanagementsystem.service;
 
 import com.ensas.librarymanagementsystem.entities.Author;
+import com.ensas.librarymanagementsystem.entities.Book;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface AuthorService {
     Author updateAuthor(Long id, Author author);
 
     List<Author> getAllAuthors();
+
+    Page<Book> getAuthorBooks(Long id, String keyword, int page, int size);
 }

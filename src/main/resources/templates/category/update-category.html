@@ -2,26 +2,37 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Categories</title>
-  <link rel="stylesheet" href="webjars/bootstrap/5.2.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="webjars/bootstrap-icons/1.9.1/font/bootstrap-icons.css">
+  <title>Category</title>
+  <link rel="stylesheet" href="/webjars/bootstrap/5.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/webjars/bootstrap-icons/1.9.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <div th:insert="fragments/header :: header" ></div>
-<div class="container my-2">
-  <div class="card">
+<div class="container mt-5">
+  <div class="card  col-md-8 offset-md-2">
     <div class="card-body">
-      <form th:action="" method="post">
-        <div class="row">
-          <div class="form-group col-md-8">
-            <label for="isbn" class="col-form-label">Categorie Name</label>
-            <input type="text" class="form-control" th:value="${category.name}" id="isbn" placeholder="ISBN">
-          </div>
-          <div class="col-md-6">
-            <input type="submit" class="btn btn-primary" value="Submit">
-          </div>
+      <div class="card-title text-center fw-light">
+        <a href="" class="link-secondary">Edit this Category</a>
+      </div>
+      <div th:switch="${category}" class="container my-5 mb-0">
+        <div class="col-md-12">
+          <form class="row g-3" th:method="put" th:action="@{/categories/{id}(id=${category.id})}">
+            <input type="hidden" name="_method" value="put" />
+            <div class="col-md-12">
+              <label for="categoryName" class="fw-light form-label">Category Name</label>
+              <input type="text" class="form-control fw-light" name="name" id="categoryName" th:value="${category.name}">
+              <span th:errors="${category.name}"></span>
+            </div>
+            <div class="d-grid gap-2 mt-5 col-6 mx-auto">
+              <button class="btn btn-outline-warning" type="submit">
+                update Category
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>

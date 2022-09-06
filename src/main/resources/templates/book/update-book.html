@@ -18,7 +18,8 @@
       </div>
       <div th:switch="${book}" class="container my-5 mb-0">
         <div class="col-md-12">
-          <form class="row g-3" method="post" th:action="@{/books}">
+          <form class="row g-3" th:method="put" th:action="@{/books/{id}(id=${book.id})}">
+            <input type="hidden" name="_method" value="put" />
             <div class="col-md-6">
               <label for="isbn" class="fw-light form-label">Book ISBN</label>
               <input type="text" class="form-control fw-light" name="isbn" id="isbn" th:value="${book.isbn}">
@@ -27,10 +28,12 @@
             <div class="col-md-6">
               <label for="bookName" class=" fw-light form-label">Book Name</label>
               <input type="text" class="form-control fw-light" name="name" id="bookName" th:value="${book.name}">
+              <span th:errors="${book.name}"></span>
             </div>
             <div class="form-floating col-12">
               <textarea class="form-control fw-light"  name="description" id="description" th:text="${book.description}"></textarea>
               <label for="description" class="fw-light">Book Description</label>
+              <span th:errors="${book.description}"></span>
             </div>
             <div class="col-md-9">
               <div class="ui form">

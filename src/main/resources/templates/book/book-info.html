@@ -12,7 +12,7 @@
   <div class="card  col-md-8 offset-md-2">
     <div class="card-body">
       <div class="card-title text-center fw-light">
-        <a href="" class="link-secondary">Edit this Book</a>
+        <a th:href="@{/update-book/{id}(id=${book.id})}" class="link-secondary">Edit this Book</a>
       </div>
       <div th:switch="${book}" class="container my-5">
         <div class="col-md-12">
@@ -31,8 +31,9 @@
             </div>
             <div class="col-12 mt-3">
               <span class="fw-bold">Book's Categories :</span>
-              <span class="fw-light" th:each="category: ${book.categories}"
-                    th:text="${category.name}">
+              <span class="fw-light" th:each="category: ${book.categories}">
+                <span th:text="${category.name}"></span>
+                <span>,</span>
               </span>
             </div>
             <div class="col-12">

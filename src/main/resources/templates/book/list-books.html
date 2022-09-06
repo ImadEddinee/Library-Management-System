@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <title>Books</title>
-  <link rel="stylesheet" href="webjars/bootstrap/5.2.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="webjars/bootstrap-icons/1.9.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/webjars/bootstrap/5.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/webjars/bootstrap-icons/1.9.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <div th:insert="fragments/header :: header" ></div>
+
 <div class="container mt-5">
   <div class="card">
     <div class="card-body p-0 pt-3">
@@ -16,7 +18,7 @@
          <div class="row">
            <div class="col-md-9">
              <p>
-               <a th:href="@{/add-book}" class="btn btn-primary">
+               <a th:href="@{/add-book}"  class="btn btn-primary">
                  <i class="bi bi-plus-circle"></i> Add Book
                </a>
              </p>
@@ -24,6 +26,7 @@
            <div class="col-md-3">
              <form method="get" th:action="@{/books}">
                <div class="input-group mb-3">
+                 <input type="hidden" name="size" th:value="${currentSize}">
                  <input type="text" class="form-control" name="keyword" th:value="${keyword}" placeholder="Search By Name ..." aria-label="Recipient's username" aria-describedby="basic-addon2">
                  <button style="padding: 0;border: none">
                    <span class="input-group-text" id="basic-addon2">
@@ -62,7 +65,7 @@
                       <i class="bi bi-pencil-square"></i>
                     </a></td>
                     <td>
-                      <form  th:action="@{/books/{id}(id=${book.id},keyword=${keyword},page=${currentPage})}" th:method="delete">
+                      <form  th:action="@{/books/{id}(id=${book.id},keyword=${keyword},page=${currentPage},size=${currentSize})}" th:method="delete">
                         <input type="hidden" name="_method" value="delete" />
                         <button type="submit" class="btn btn-sm btn-primary"
                                 onclick="confirm('Are you sure !')">
@@ -119,7 +122,7 @@
                         th:text="${p + 1}"></a>
                  </li>
                  <li class="page-item">
-                   <a th:class="${pagination[2] + 1 > totalPages ? 'page-link disabled' : 'page-link'}"
+                   <a th:class="${pagination[2] * totalElements > totalElements ? 'page-link disabled' : 'page-link'}"
                       th:href="@{books(keyword=(${keyword}),page=${pagination[2] + 1})}" aria-label="Next">
                      <span aria-hidden="true">&raquo;</span>
                    </a>

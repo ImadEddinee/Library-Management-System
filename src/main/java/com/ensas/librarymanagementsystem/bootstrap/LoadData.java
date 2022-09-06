@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -70,8 +71,9 @@ public class LoadData implements CommandLineRunner {
         authorityRepository.save(updateAuthor);
 
         Role adminRole = new Role();
-        adminRole.setName("ADMIN");
+        adminRole.setName("ROLE_ADMIN");
         roleRepository.save(adminRole);
+
         Set<Authority> adminAuthorities = new HashSet<>();
         adminAuthorities.add(addBook);
         adminAuthorities.add(deleteBook);
@@ -83,6 +85,7 @@ public class LoadData implements CommandLineRunner {
         adminAuthorities.add(deleteAuthor);
         adminAuthorities.add(updateAuthor);
         adminRole.setAuthorities(adminAuthorities);
+
         roleRepository.save(adminRole);
 
         Role studentRole = new Role();
@@ -109,9 +112,11 @@ public class LoadData implements CommandLineRunner {
         student.setAddress("address student");
         userRepository.save(student);
 
+
         Category category = new Category();
         category.setName("category name");
         categoryRepository.save(category);
+
 
         Author author = new Author();
         author.setName("author name");

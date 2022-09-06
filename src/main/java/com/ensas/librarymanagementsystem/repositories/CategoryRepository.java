@@ -1,5 +1,6 @@
 package com.ensas.librarymanagementsystem.repositories;
 
+import com.ensas.librarymanagementsystem.entities.Book;
 import com.ensas.librarymanagementsystem.entities.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

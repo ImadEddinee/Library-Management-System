@@ -27,8 +27,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book getBook(Long id) {
         Book book = bookRepository.findById(id).orElseThrow(() ->
-                new BookNotFoundException("Book with id " + id + "not found"));
-        System.out.println(book.getCategories().size());
+                new BookNotFoundException("Book with id " + id + " not found"));
         return book;
     }
 
@@ -44,7 +43,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book updateBook(Long id, Book book) {
-        return null;
+        bookRepository.findById(id).orElseThrow(() ->
+                new BookNotFoundException("Book with id : " + id + " not found"));
+        bookRepository.save(book);
+        return book;
     }
 
 }

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Author</title>
+  <link rel="stylesheet" href="/webjars/bootstrap/5.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/  webjars/bootstrap-icons/1.9.1/font/bootstrap-icons.css">
+</head>
+<body>
+<div th:insert="fragments/header :: header" ></div>
+<div class="container mt-5">
+  <div class="card  col-md-8 offset-md-2">
+    <div class="card-body">
+      <div class="card-title text-center fw-light">
+        <a th:href="@{/update-author/{id}(id=${author.id})}" class="link-secondary">Edit this Author</a>
+      </div>
+      <div th:switch="${author}" class="container my-5">
+        <div class="col-md-12">
+          <form class="row g-3">
+            <div class="col-md-12">
+              <label for="bookName" class=" fw-light form-label">Author Name</label>
+              <input type="text" disabled class="form-control fw-light" id="bookName" th:value="${author.name}">
+            </div>
+            <div class="form-floating col-12">
+              <textarea class="form-control fw-light" disabled id="description" th:text="${author.description}"></textarea>
+              <label for="description" class="fw-light">Author Description</label>
+            </div>
+            <div class="col-6 mt-3">
+              <a class="link-secondary" th:href="@{/authors/{id}/books(id=${author.id})}">See related Books</a>
+            </div>
+            <div class="col-6">
+              <a  class="link-secondary"  th:href="@{/authors/{id}/categories(id=${author.id})}">See related Categories</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

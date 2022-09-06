@@ -1,5 +1,6 @@
 package com.ensas.librarymanagementsystem.service;
 
+import com.ensas.librarymanagementsystem.entities.Book;
 import com.ensas.librarymanagementsystem.entities.Category;
 import org.springframework.data.domain.Page;
 
@@ -17,4 +18,6 @@ public interface CategoryService {
     Category updateCategory(Long id, Category category);
 
     List<Category> getAllCategories();
+
+    Page<Book> getCategoryBooks(Long id, String keyword, int page, int size);
 }

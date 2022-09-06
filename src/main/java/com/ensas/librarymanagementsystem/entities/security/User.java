@@ -6,6 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -24,9 +25,6 @@ public class User extends BaseEntity implements UserDetails {
     private  String phone;
     private  String address;
 
-
-
-    @Singular
     @ManyToMany(cascade = {CascadeType.MERGE},fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",joinColumns = {@JoinColumn(name = "USER_ID",referencedColumnName = "ID")},inverseJoinColumns = {
             @JoinColumn(name = "ROLE_ID",referencedColumnName = "ID")
@@ -35,8 +33,8 @@ public class User extends BaseEntity implements UserDetails {
 
     public Set<GrantedAuthority> getAuthorities() {
         return this.roles.stream()
-                .map(Role::getAuthorities)
-                .flatMap(Set::stream)
+                .map(role -> role.getAuthorities())
+                .flatMap(authorities -> authorities.stream())
                 .map(authority->{
                     return  new SimpleGrantedAuthority(authority.getPermission());
                 })

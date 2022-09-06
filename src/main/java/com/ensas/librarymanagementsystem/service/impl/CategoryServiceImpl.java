@@ -1,7 +1,9 @@
 package com.ensas.librarymanagementsystem.service.impl;
 
+import com.ensas.librarymanagementsystem.entities.Book;
 import com.ensas.librarymanagementsystem.entities.Category;
 import com.ensas.librarymanagementsystem.exceptions.CategoryNotFoundException;
+import com.ensas.librarymanagementsystem.repositories.BookRepository;
 import com.ensas.librarymanagementsystem.repositories.CategoryRepository;
 import com.ensas.librarymanagementsystem.service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final BookRepository bookRepository;
 
     @Override
     public Page<Category> getCategories(String keyword, int page, int size) {
@@ -36,16 +39,26 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category saveCategory(Category category) {
-        return null;
+        return categoryRepository.save(category);
     }
 
     @Override
     public Category updateCategory(Long id, Category category) {
-        return null;
+        categoryRepository.findById(id).orElseThrow(() ->
+                new CategoryNotFoundException("Category with id : " + id + " not found"));
+        categoryRepository.save(category);
+        return category;
     }
 
     @Override
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
+    }
+
+    @Override
+    public Page<Book> getCategoryBooks(Long id,String keyword,int page,int size) {
+        keyword = keyword + "%";
+        return bookRepository
+                .findBooksByCategoryId(id, keyword, PageRequest.of(page, size));
     }
 }

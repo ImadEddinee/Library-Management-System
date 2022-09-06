@@ -21,20 +21,23 @@
                     <form class="row g-3" method="post" th:action="@{/books}">
                         <div class="col-md-6">
                             <label for="isbn" class="fw-light form-label">Book ISBN</label>
-                            <input type="text" class="form-control fw-light" id="isbn">
+                            <input type="text" class="form-control fw-light" name="isbn" th:value="${book.isbn}" id="isbn">
+                            <span th:errors="${book.isbn}"></span>
                         </div>
                         <div class="col-md-6">
-                            <label for="bookName" class=" fw-light form-label">Book Name</label>
-                            <input type="text" class="form-control fw-light" id="bookName" >
+                            <label  class=" fw-light form-label">Book Name</label>
+                            <input type="text" class="form-control fw-light" name="name" th:value="${book.name}" />
+                            <span th:errors="${book.name}"></span>
                         </div>
                         <div class="form-floating col-12">
-                            <textarea class="form-control fw-light" id="description" ></textarea>
+                            <textarea class="form-control fw-light" name="description" id="description" th:text="${book.description}" ></textarea>
                             <label for="description" class="fw-light">Book Description</label>
+                            <span th:errors="${book.description}"></span>
                         </div>
                         <div class="col-md-9">
                             <div class="ui form">
                                 <div class="inline field">
-                                    <select name="skills" multiple="" class="label ui selection fluid dropdown">
+                                    <select name="categories" multiple="" class="label ui selection fluid dropdown">
                                         <option value="">Select Categories</option>
                                         <option th:each="category : ${categories}"
                                                 th:value="${category.id}"
@@ -51,7 +54,7 @@
                         <div class="col-md-9">
                             <div class="ui form">
                                 <div class="inline field">
-                                    <select name="skills" multiple="" class="label ui selection fluid dropdown">
+                                    <select name="authors" multiple="" class="label ui selection fluid dropdown">
                                         <option value="">Select Authors</option>
                                         <option th:each="author : ${authors}"
                                                 th:value="${author.id}"
@@ -66,7 +69,7 @@
                             </div>
                         </div>
                         <div class="d-grid gap-2 mt-5 col-6 mx-auto">
-                            <button class="btn btn-outline-success" type="button">
+                            <button class="btn btn-outline-success" type="submit">
                                 insert a new book
                             </button>
                         </div>

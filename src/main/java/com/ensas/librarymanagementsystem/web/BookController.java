@@ -50,9 +50,10 @@ public class BookController {
     @DeleteMapping("/books/{id}")
     public String deleteBook(@PathVariable("id") Long id,
                              @RequestParam(name = "keyword",defaultValue = "") String keyword,
-                             @RequestParam(name = "page",defaultValue = "0") int page){
+                             @RequestParam(name = "page",defaultValue = "0") int page,
+                             @RequestParam(name = "size",defaultValue = "5") int size){
         bookService.deleteBook(id);
-        return "redirect:/books?keyword=" + keyword + "&page=" + page;
+        return "redirect:/books?keyword=" + keyword + "&page=" + page + "&size=" + size;
     }
 
     @GetMapping("/update-book/{id}")
@@ -66,26 +67,34 @@ public class BookController {
     @PostMapping("/books")
     public String saveBook(@Valid Book book, BindingResult bindingResult,Model model) {
         if (bindingResult.hasErrors()){
-            return "book/update-book";
+            model.addAttribute("book", book);
+            model.addAttribute("categories", categoryService.getAllCategories());
+            model.addAttribute("authors", authorService.getAllAuthors());
+            return "book/add-book";
         }
-        System.out.println(book.getName());
-        System.out.println(book.getCategories().size());
-        System.out.println(book.getAuthors().size());
-        //Book addedBook = bookService.saveBook(book);
+        bookService.saveBook(book);
         return "redirect:/books";
     }
 
     @GetMapping("/add-book")
     public String addBook(Model model){
+        model.addAttribute("book", new Book());
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("authors", authorService.getAllAuthors());
         return "book/add-book";
     }
 
     @PutMapping("/books/{id}")
-    public String updateBook(@PathVariable("id") Long id,
-                             @RequestBody Book book) {
-        Book updatedBook = bookService.updateBook(id, book);
-        return "";
+    public String updateBook(@PathVariable("id") Long id,@Valid Book book,
+                             BindingResult bindingResult,Model model
+                             ) {
+        if (bindingResult.hasErrors()){
+            model.addAttribute("categories", categoryService.getAllCategories());
+            model.addAttribute("authors", authorService.getAllAuthors());
+            model.addAttribute("book", book);
+            return "book/update-book";
+        }
+        bookService.updateBook(id, book);
+        return "redirect:/books";
     }
 }

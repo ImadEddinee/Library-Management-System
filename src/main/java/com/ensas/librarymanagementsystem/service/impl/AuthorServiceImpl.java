@@ -1,8 +1,10 @@
 package com.ensas.librarymanagementsystem.service.impl;
 
 import com.ensas.librarymanagementsystem.entities.Author;
+import com.ensas.librarymanagementsystem.entities.Book;
 import com.ensas.librarymanagementsystem.exceptions.AuthorNotFoundException;
 import com.ensas.librarymanagementsystem.repositories.AuthorRepository;
+import com.ensas.librarymanagementsystem.repositories.BookRepository;
 import com.ensas.librarymanagementsystem.service.AuthorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +20,7 @@ import java.util.List;
 public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorRepository authorRepository;
+    private final BookRepository bookRepository;
 
 
     @Override
@@ -35,7 +38,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author addAuthor(Author author) {
-        return null;
+        return authorRepository.save(author);
     }
 
     @Override
@@ -45,12 +48,22 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author updateAuthor(Long id, Author author) {
-        return null;
+        authorRepository.findById(id).orElseThrow(() ->
+                new AuthorNotFoundException("Author with id " + id + " not found"));
+        authorRepository.save(author);
+        return author;
     }
 
     @Override
     public List<Author> getAllAuthors() {
         return authorRepository.findAll();
+    }
+
+    @Override
+    public Page<Book> getAuthorBooks(Long id, String keyword, int page, int size) {
+        keyword = keyword + "%";
+        return bookRepository
+                .findBooksByAuthorId(id, keyword, PageRequest.of(page, size));
     }
 }
 
