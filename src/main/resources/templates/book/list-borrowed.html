@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
-  <title>Books</title>
+  <title>Borrowed Books</title>
   <link rel="stylesheet" href="/webjars/bootstrap/5.2.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="/webjars/bootstrap-icons/1.9.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="/css/style.css">
@@ -13,17 +13,17 @@
 <div class="container mt-5">
   <div class="card">
     <div class="card-body p-0 pt-3">
-       <div th:switch="${books}" class="container">
+       <div th:switch="${borrows}" class="container">
          <div class="row">
            <div class="col-md-9">
              <p>
-               <a th:href="@{/add-book}" sec:authorize="hasAuthority('create_book')" class="btn btn-primary">
-                 <i class="bi bi-plus-circle"></i> Add Book
+               <a th:href="@{/books}"  class="btn btn-primary">
+                 <i class="bi bi-plus-circle"></i> List Books
                </a>
              </p>
            </div>
            <div class="col-md-3">
-             <form method="get" th:action="@{/books}">
+             <form method="get" th:action="@{//borrowed-books}">
                <div class="input-group mb-3">
                  <input type="hidden" name="size" th:value="${currentSize}">
                  <input type="text" class="form-control" name="keyword" th:value="${keyword}" placeholder="Search By Name ..." aria-label="Recipient's username" aria-describedby="basic-addon2">
@@ -42,45 +42,27 @@
               <table class="table table-striped table-responsive-md">
                 <thead>
                   <tr>
-                    <th scope="col">ISBN</th>
                     <th scope="col">Book Name</th>
-                    <th scope="col">Description</th>
+                    <th scope="col">Date Borrowed</th>
+                    <th scope="col">Returned Before</th>
                     <th scope="col">Details</th>
-                    <th scope="col"
-                        sec:authorize="hasAuthority('update_book')">Edit</th>
-                    <th scope="col"
-                        sec:authorize="hasAuthority('delete_book')">Delete</th>
-                    <th scope="col"
-                        sec:authorize="hasAuthority('borrow_book')">Borrow</th>
+                    <th scope="col">Return</th>
+
                   </tr>
                 </thead>
                 <tbody>
-                  <tr th:each="book :${books}">
-                    <td th:text="${book.isbn}" ></td>
-                    <td th:text="${book.name}" ></td>
-                    <td th:text="${book.description}" ></td>
-                    <td><a th:href="@{/books/{id}(id=${book.id})}"
+                  <tr th:each="borrow :${borrows}">
+                    <td th:text="${borrow.getBook().name}" ></td>
+                    <td th:text="${borrow.getBorrowedAt()}" ></td>
+                    <td th:text="${borrow.getBorrowedAt().plusMonths(3)}" ></td>
+                    <td><a th:href="@{/books/{id}(id=${borrow.getBook().id})}"
                            class="btn btn-sm btn-primary">
                       <i class="bi bi-eye"></i>
                     </a></td>
-                    <td sec:authorize="hasAuthority('update_book')"
-                    ><a th:href="@{/update-book/{id}(id=${book.id})}"
+                    <td><a th:href="@{/return-book/{id}(id=${borrow.getBook().id})}"
+                           onclick="confirm('Are you sure !')"
                            class="btn btn-sm btn-primary">
-                      <i class="bi bi-pencil-square"></i>
-                    </a></td>
-                    <td sec:authorize="hasAuthority('delete_book')">
-                      <form  th:action="@{/books/{id}(id=${book.id},keyword=${keyword},page=${currentPage},size=${currentSize})}" th:method="delete">
-                        <input type="hidden" name="_method" value="delete" />
-                        <button type="submit" class="btn btn-sm btn-primary"
-                                onclick="confirm('Are you sure !')">
-                          <i class="bi bi-trash"></i>
-                        </button>
-                      </form>
-                    </td>
-                    <td sec:authorize="hasAuthority('borrow_book')"
-                    ><a th:href="@{/borrow-book/{id}(id=${book.id})}"
-                        th:class="${ book.quantity > 0 ? 'btn btn-sm btn-primary':'btn btn-sm btn-danger disabled'}">
-                      <i class="bi bi-journal-plus"></i>
+                      Return Book
                     </a></td>
                   </tr>
                 </tbody>

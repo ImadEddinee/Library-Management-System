@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="webjars/bootstrap/5.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="webjars/bootstrap-icons/1.9.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/bootstrap-icons/1.9.1/font/bootstrap-icons.css">
 </head>
 <body>
 <nav th:fragment="header" class="navbar navbar-expand-lg bg-light">
@@ -41,6 +41,9 @@
                     <a class="nav-link dropdown-toggle" href="#" sec:authentication="name" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     </a>
                     <ul class="dropdown-menu">
+                        <li><a class="dropdown-item"
+                               sec:authorize="hasAuthority('borrow_book')"
+                               th:href="@{/borrowed-books}">Profile</a></li>
                         <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
                     </ul>
                 </li>

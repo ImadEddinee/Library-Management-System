@@ -42,8 +42,23 @@
                     th:text="${author.name}">
               </span>
             </div>
+            <div class="col-md-6">
+              <label for="quantity" class=" fw-light form-label">Quantity Available</label>
+              <input type="text" disabled class="form-control fw-light" id="quantity" th:value="${book.quantity}">
+            </div>
+            <div class="col-md-6">
+
+            </div>
           </form>
         </div>
+        <form th:action="@{/borrow/{id}(id=${book.id})}" method="get">
+          <label for="date" class="fw-light form-label">Return Date</label>
+          <input type="date" name="date" class="form-control fw-light" id="date" >
+          <span th:class="text-danger" th:text="${error}"></span>
+          <button type="submit">
+            borrow
+          </button>
+        </form>
       </div>
     </div>
   </div>

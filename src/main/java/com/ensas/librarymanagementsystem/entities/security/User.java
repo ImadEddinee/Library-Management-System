@@ -1,18 +1,23 @@
 package com.ensas.librarymanagementsystem.entities.security;
 
+import com.ensas.librarymanagementsystem.entities.Borrow;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 
 @Entity
-@Data
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "APP_USER")
 public class User extends BaseEntity implements UserDetails {
@@ -29,7 +34,10 @@ public class User extends BaseEntity implements UserDetails {
     @JoinTable(name = "user_role",joinColumns = {@JoinColumn(name = "USER_ID",referencedColumnName = "ID")},inverseJoinColumns = {
             @JoinColumn(name = "ROLE_ID",referencedColumnName = "ID")
     })
-    private Set<Role> roles ;
+    private Set<Role> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Borrow> borrows;
 
     public Set<GrantedAuthority> getAuthorities() {
         return this.roles.stream()

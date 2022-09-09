@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <title>Categories</title>
@@ -16,7 +17,7 @@
         <div class="row">
           <div class="col-md-9">
             <p>
-              <a th:href="@{/add-category}" class="btn btn-primary">
+              <a th:href="@{/add-category}"  sec:authorize="hasAuthority('create_category')" class="btn btn-primary">
                 <i class="bi bi-plus-circle"></i> Add Category
               </a>
             </p>
@@ -43,8 +44,10 @@
               <tr>
                 <th scope="col">Category Name</th>
                 <th scope="col">Related Books</th>
-                <th scope="col">Edit</th>
-                <th scope="col">Delete</th>
+                <th scope="col"
+                    sec:authorize="hasAuthority('update_category')">Edit</th>
+                <th scope="col"
+                    sec:authorize="hasAuthority('delete_category')">Delete</th>
               </tr>
               </thead>
               <tbody>
@@ -54,11 +57,12 @@
                        class="link-secondary">
                   See Related Books
                 </a></td>
-                <td><a th:href="@{/update-category/{id}(id=${category.id})}"
+                <td sec:authorize="hasAuthority('update_category')">
+                  <a th:href="@{/update-category/{id}(id=${category.id})}"
                        class="btn btn-sm btn-primary">
                   <i class="bi bi-pencil-square"></i>
                 </a></td>
-                <td>
+                <td sec:authorize="hasAuthority('delete_category')">
                   <form  th:action="@{/categories/{id}(id=${category.id},keyword=${keyword},page=${currentPage},size=${currentSize})}" th:method="delete">
                     <input type="hidden" name="_method" value="delete" />
                     <button type="submit" class="btn btn-sm btn-primary"
@@ -129,5 +133,6 @@
     </div>
   </div>
 </div>
+<div th:replace="fragments/footer :: footer" ></div>
 </body>
 </html>

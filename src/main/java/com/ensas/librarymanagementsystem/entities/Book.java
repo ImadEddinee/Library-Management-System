@@ -32,12 +32,16 @@ public class Book {
     @Size(min = 15)
     @Column(nullable = false)
     private String description;
+    private int quantity;
 
     @ManyToMany
     @JoinTable(name = "BOOK_AUTHOR",
             joinColumns = {@JoinColumn(name = "book_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "author_id", referencedColumnName = "id")})
     private List<Author> authors = new ArrayList<>();
+
+    @OneToMany(mappedBy = "book")
+    private List<Borrow> borrows;
 
     @ManyToMany
     @JoinTable(name = "BOOK_CATEGORY",

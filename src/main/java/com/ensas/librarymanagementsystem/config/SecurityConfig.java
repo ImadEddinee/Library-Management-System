@@ -27,9 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeHttpRequests().antMatchers("/webjars/**").permitAll();
         http.authorizeHttpRequests().antMatchers("/css/**").permitAll();
         http.authorizeHttpRequests().antMatchers("/js/**").permitAll();
-        http.authorizeHttpRequests().antMatchers("/uh").hasRole("PATIENT");
-        http.authorizeHttpRequests().antMatchers("/uh").hasRole("DOCTOR");
-        http.authorizeHttpRequests().antMatchers("/uh").hasRole("ADMIN");
+//        http.authorizeHttpRequests().antMatchers("/add**","/update**").hasRole("ADMIN");
         http.authorizeHttpRequests().anyRequest().authenticated();
     }
 }

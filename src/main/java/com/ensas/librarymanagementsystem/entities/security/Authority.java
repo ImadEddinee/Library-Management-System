@@ -9,7 +9,10 @@ import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class Authority extends BaseEntity {
 

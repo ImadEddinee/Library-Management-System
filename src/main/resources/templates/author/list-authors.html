@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <title>Authors</title>
-  <link rel="stylesheet" href="webjars/bootstrap/5.2.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="webjars/bootstrap-icons/1.9.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/webjars/bootstrap/5.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/webjars/bootstrap-icons/1.9.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -16,7 +17,7 @@
         <div class="row">
           <div class="col-md-9">
             <p>
-              <a th:href="@{/add-author}" class="btn btn-primary">
+              <a th:href="@{/add-author}" sec:authorize="hasAuthority('create_author')" class="btn btn-primary">
                 <i class="bi bi-plus-circle"></i> Add Author
               </a>
             </p>
@@ -44,8 +45,10 @@
                 <th scope="col">Author Name</th>
                 <th scope="col">Description</th>
                 <th scope="col">Details</th>
-                <th scope="col">Edit</th>
-                <th scope="col">Delete</th>
+                <th scope="col"
+                    sec:authorize="hasAuthority('update_author')" >Edit</th>
+                <th scope="col"
+                    sec:authorize="hasAuthority('delete_author')" >Delete</th>
               </tr>
               </thead>
               <tbody>
@@ -56,11 +59,12 @@
                        class="btn btn-sm btn-primary">
                   <i class="bi bi-eye"></i>
                 </a></td>
-                <td><a th:href="@{/update-author/{id}(id=${author.id})}"
+                <td sec:authorize="hasAuthority('update_author')"
+                ><a th:href="@{/update-author/{id}(id=${author.id})}"
                        class="btn btn-sm btn-primary">
                   <i class="bi bi-pencil-square"></i>
                 </a></td>
-                <td>
+                <td  sec:authorize="hasAuthority('delete_author')" >
                   <form  th:action="@{/authors/{id}(id=${author.id},keyword=${keyword},page=${currentPage},size=${currentSize})}" th:method="delete">
                     <input type="hidden" name="_method" value="delete" />
                     <button type="submit" class="btn btn-sm btn-primary"
@@ -131,5 +135,6 @@
     </div>
   </div>
 </div>
+<div th:replace="fragments/footer :: footer" ></div>
 </body>
 </html>
