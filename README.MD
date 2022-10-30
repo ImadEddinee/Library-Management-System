@@ -1,4 +1,4 @@
-# 📚 Library Management System -Java
+# 📚 Library Management System Java/Spring Boot/Thymeleaf/PostgreSQL
 
 A Library Management System made using the concepts of Object Oriented Analysis and Design. 
 
@@ -17,19 +17,24 @@ After determining the actors, the second step in use case analysis is to determi
 
 
 ### Student:
-* ❏ Search for books by book name.
+* ❏ Search for books by name.
 * ❏ ... by author.
 * ❏ ... by category.
-* ❏ See details of books/authors or categoriesx.
-* ❏ Borrow a new Book. (when a student borrow a book the maximaum return date is 3 month from the day the book was borrowed)
-* ❏ Check  the  list  of  books  currently borrowed.
-* ❏ returne borrowed book.
+* ❏ See details of a book.
+* ❏ ... an author.
+* ❏ ... a category.
+* ❏ Borrow a new Book. (if a book is available the return date should be between the current date and current date plus three months)
+* ❏ Check the list of books currently borrowed.
+* ❏ Return borrowed books.
 
 ### Administrator:
 * ❏ Search for books by book name.
 * ❏ ... by author.
 * ❏ ... by category.
-* ❏ update quantity of books.
-* ❏ Add/ delete/ modify Book.
-* ❏ Add/ delete/ modify Category.
-* ❏ Add/ delete/ modify Author.
+* * ❏ See details of a book.
+* ❏ ... an author.
+* ❏ ... a category.
+* ❏ Update the available quantity of a book.
+* ❏ Add/delete/modify a Book.
+* ❏ Add/delete/modify a Category.
+* ❏ Add/delete/modify an Author.
