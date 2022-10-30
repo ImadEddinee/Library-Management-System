@@ -38,3 +38,11 @@ After determining the actors, the second step in use case analysis is to determi
 * ❏ Add/delete/modify a Book.
 * ❏ Add/delete/modify a Category.
 * ❏ Add/delete/modify an Author.
+
+
+### Tech stack:
+   * Spring Boot
+   * Spring Data Jpa
+   * H2 Database
+   * Thymeleaf
+   * Bootstrap4
